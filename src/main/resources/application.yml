@@ -1,0 +1,47 @@
+spring:
+  datasource:
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: root
+    password: root
+    url: jdbc:log4jdbc:mysql://localhost:3306/smis?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    #url: jdbc:log4jdbc:mysql://49.234.79.216:3306/sims?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+  servlet:
+    multipart:
+      max-file-size: 16MB
+      max-request-size: 16MB
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .ftl
+
+ #springboot-mail配置
+  mail:
+    host: smtp.qq.com
+    username: XXXXXX@qq.com
+    password: emailPassword
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable: true
+          required: true
+
+#日志配置
+logging:
+  level:
+    org.springframework.security:
+      - debug
+      - info
+    org.springframework.web: error
+    org.hibernate.SQL: debug
+    org.hibernate.engine.QueryParameters: debug
+    org.hibernate.engine.query.HQLQueryPlan: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
