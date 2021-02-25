@@ -22,7 +22,7 @@ public class ApplicationTest {
         userRegisterParam.setPassword("123132");
         userRegisterParam.setEmail(testEmail);
         userRegisterParam.setStudentId("B19040229");
-        userService.register(userRegisterParam);
+        userService.registerStudent(userRegisterParam);
     }
 
     @Test

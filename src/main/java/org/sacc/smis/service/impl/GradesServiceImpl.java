@@ -39,6 +39,8 @@ public class GradesServiceImpl implements GradesService {
     public boolean updateGrades(Grades grades) {
         Grades g = gradesRepository.getByStudentIdAndGradesName(grades.getStudentId(), grades.getGradesName());
         BeanUtils.copyProperties(grades, g, GetNullPropertyNamesUtil.getNullPropertyNames(grades));
+        LocalDateTime time = LocalDateTime.now();
+        g.setUpdateAt(time);
         gradesRepository.save(g);
         return true;
     }

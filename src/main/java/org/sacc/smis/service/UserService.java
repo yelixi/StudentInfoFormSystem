@@ -16,7 +16,11 @@ import java.util.List;
 public interface UserService {
     List<User> findAll();
 
-    boolean register(UserRegisterParam userRegisterParam);
+    boolean registerStudent(UserRegisterParam userRegisterParam);
+
+    boolean registerTeacher(UserRegisterParam userRegisterParam);
+
+    boolean registerAdmin(UserRegisterParam userRegisterParam);
 
     boolean updateInfo(User user);
 
@@ -31,4 +35,6 @@ public interface UserService {
     Integer sendValidationEmail(String email, HttpServletRequest request);
 
     boolean resetPassword(String token,String password,String confirmPassword);
+
+    boolean giveAuthority(String studentId);
 }

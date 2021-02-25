@@ -97,6 +97,6 @@ public class StudentMoralEducationItemController {
                                           Authentication authentication){
         UserInfo userInfo = (UserInfo)authentication.getPrincipal();
         item.setCommentatorId(userInfo.getId());
-        return RestResult.success(studentMoralEducationService.updateItem(item));
+        return RestResult.success(studentMoralEducationService.updateCommentItem(item));
     }
 }

@@ -6,6 +6,7 @@ import org.sacc.smis.entity.User;
 import org.sacc.smis.entity.UserRegisterParam;
 import org.sacc.smis.entity.UserValidate;
 import org.sacc.smis.enums.Business;
+import org.sacc.smis.enums.UserRole;
 import org.sacc.smis.exception.BusinessException;
 import org.sacc.smis.mapper.UserRepository;
 import org.sacc.smis.model.RestResult;
@@ -61,17 +62,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public boolean register(UserRegisterParam userRegisterParam) {
-        if (userRepository.findByStudentId(userRegisterParam.getStudentId()) != null)
-            throw new BusinessException(Business.STUDENT_ID_IS_EXIT);
-        else if (userRepository.findByEmail(userRegisterParam.getEmail()) != null)
-            throw new BusinessException(Business.EMAIL_IS_EXIT);
-        User user = new User();
-        BeanUtils.copyProperties(userRegisterParam, user);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
-        userRepository.save(user);
+    public boolean registerStudent(UserRegisterParam userRegisterParam) {
+        register(userRegisterParam,"0");
+        return true;
+    }
+
+    @Override
+    public boolean registerTeacher(UserRegisterParam userRegisterParam) {
+        register(userRegisterParam,"1");
+        return true;
+    }
+
+    @Override
+    public boolean registerAdmin(UserRegisterParam userRegisterParam) {
+        register(userRegisterParam,"3");
         return true;
     }
 
@@ -160,5 +164,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 throw new BusinessException(Business.THIS_LINK_HAS_EXPIRED);
             }
         }
+    }
+
+    @Override
+    public boolean giveAuthority(String studentId) {
+        User user = userRepository.findByStudentId(studentId);
+        user.setRole("1");
+        userRepository.save(user);
+        return true;
+    }
+
+    void register(UserRegisterParam userRegisterParam,String role){
+        if (userRepository.findByStudentId(userRegisterParam.getStudentId()) != null)
+            throw new BusinessException(Business.STUDENT_ID_IS_EXIT);
+        else if (userRepository.findByEmail(userRegisterParam.getEmail()) != null)
+            throw new BusinessException(Business.EMAIL_IS_EXIT);
+        User user = new User();
+        BeanUtils.copyProperties(userRegisterParam, user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+        user.setRole(role);
+        userRepository.save(user);
     }
 }

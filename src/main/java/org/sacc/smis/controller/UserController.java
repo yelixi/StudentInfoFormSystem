@@ -36,7 +36,19 @@ public class UserController {
     @ResponseBody
     @PostMapping("/register")
     public RestResult<Boolean> register(@RequestBody UserRegisterParam userRegisterParam) {
-        return RestResult.success(userService.register(userRegisterParam));
+        return RestResult.success(userService.registerStudent(userRegisterParam));
+    }
+
+    @ResponseBody
+    @PostMapping("/registerTeacher")
+    public RestResult<Boolean> registerTeacher(@RequestBody UserRegisterParam userRegisterParam) {
+        return RestResult.success(userService.registerTeacher(userRegisterParam));
+    }
+
+    @ResponseBody
+    @PostMapping("/registerAdmin")
+    public RestResult<Boolean> registerAdmin(@RequestBody UserRegisterParam userRegisterParam) {
+        return RestResult.success(userService.registerAdmin(userRegisterParam));
     }
 
     @ResponseBody
@@ -104,5 +116,11 @@ public class UserController {
         }
         UserInfo userInfo = (UserInfo) authentication.getPrincipal();
         return RestResult.success(userService.updatePassword(updatePassword, userInfo.getId()));
+    }
+
+    @ResponseBody
+    @PostMapping("/giveAuthority")
+    public RestResult<Boolean> giveAuthority(@RequestParam("studentId") String studentId){
+        return RestResult.success(userService.giveAuthority(studentId));
     }
 }

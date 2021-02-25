@@ -8,6 +8,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by 林夕
  * Date 2021/2/17 13:24
@@ -20,6 +22,9 @@ public class StudentMoralEducationServiceImpl implements StudentMoralEducationSe
 
     @Override
     public boolean uploadItem(StudentMoralEducationItem item) {
+        LocalDateTime time = LocalDateTime.now();
+        item.setCreateAt(time);
+        item.setUpdateAt(time);
         studentMoralEducationRepository.save(item);
         return true;
     }
