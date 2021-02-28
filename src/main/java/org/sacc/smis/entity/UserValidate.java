@@ -21,19 +21,19 @@ public class UserValidate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /*
+    /**
      * 用户ID
-     * */
+     */
     @Column(nullable = false)
     private Integer userId;
 
-    /*
+    /**
      * 用户Email
-     * */
+     */
     @Column(nullable = false)
     private String email;
 
-    /*
+    /**
      *用户Token
      */
     @Column(nullable = false)

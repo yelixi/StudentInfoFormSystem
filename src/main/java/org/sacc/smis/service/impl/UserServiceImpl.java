@@ -129,19 +129,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 validateService.insertNewResetRecord(userValidate, user, UUID.randomUUID().toString());
                 //设置邮件内容
                 String appUrl = request.getScheme() + "://" + request.getServerName();
+                int serverPort = request.getServerPort();
                 SimpleMailMessage passWordResetEmail = new SimpleMailMessage();
                 passWordResetEmail.setFrom(from);
                 passWordResetEmail.setTo(email);
                 passWordResetEmail.setSubject("【学生表单管理系统】忘记密码");
                 passWordResetEmail.setText("您正在申请重置密码，请点击此链接重置密码: \n" +
-                        appUrl + ":8080/validate/resetPassword?token=" + userValidate.getResetToken());
+                        appUrl + ":" + serverPort +"/validate/resetPassword?token=" + userValidate.getResetToken());
                 validateService.sendPasswordResetEmail(passWordResetEmail);
                 break;
             case -1:
                 throw new BusinessException(Business.THE_NUMBER_OF_EMAILS_SENT_TODAY_HAS_REACHED_THE_LIMIT);
             default:
                 return (int) status;
-
         }
         return 0;
     }

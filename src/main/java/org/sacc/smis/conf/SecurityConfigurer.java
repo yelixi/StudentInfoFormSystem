@@ -1,10 +1,9 @@
 package org.sacc.smis.conf;
 
-import org.sacc.smis.model.RestResult;
-import org.sacc.smis.util.ResponseUtil;
+import org.sacc.smis.secure.process.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +17,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    SecureAuthenticationFailureHandler secureAuthenticationFailureHandler;
+
+    @Autowired
+    SecureAuthenticationSuccessHandler secureAuthenticationSuccessHandler;
+
+    @Autowired
+    SecureAccessDeniedHandler secureAccessDeniedHandler;
+
+    @Autowired
+    SecureSessionExpiredHandler secureSessionExpiredHandler;
+
+    @Autowired
+    SecureLogoutSuccessHandler secureLogoutSuccessHandler;
+
+    @Autowired
+    SecureLogoutHandler secureLogoutHandler;
+
+    @Autowired
+    SecureAuthenticationEntryPoint secureAuthenticationEntryPoint;
+
     private static final String[] NO_AUTH_LIST = {
             "/v2/api-docs",
             "/configuration/ui",
@@ -25,10 +45,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**",
-            "/register/*",
-            "/findAll",
+            "/register/**",
             "/application/**",
-            "/submit_item",
             "/validate/sendValidationEmail",
             "/validate/resetPassword"
     };
@@ -41,21 +59,29 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors()
-                .and().formLogin().loginPage("/login").loginProcessingUrl("/login").usernameParameter("studentId")
+                .and().formLogin()
                 //登录失败处理，返回json
-                .failureHandler((req, resp, e) -> ResponseUtil.restResponse(resp, HttpStatus.FORBIDDEN, RestResult.error(403, e.getMessage())))
-                //登录成功处理，返回json
-                .successHandler((req, resp, e) -> ResponseUtil.restResponse(resp, HttpStatus.OK, RestResult.success("登录成功")))
                 .permitAll()
+                .failureHandler(secureAuthenticationFailureHandler)
+                //登录成功处理，返回json
+                .successHandler(secureAuthenticationSuccessHandler)
+                .and()
+                .logout().logoutUrl("/logout").permitAll()
+                // 配置用户登出自定义处理类
+                .addLogoutHandler(secureLogoutHandler)
+                // 配置用户登出成功自定义处理类
+                .logoutSuccessHandler(secureLogoutSuccessHandler)
                 .and().exceptionHandling()
                 //请求登录处理，改变默认跳转登录页
-                .authenticationEntryPoint((req, resp, e) -> ResponseUtil.restResponse(resp, HttpStatus.UNAUTHORIZED, RestResult.error(401, "请先登录")))
-                //没有权限访问
-                .accessDeniedHandler((req, resp, e) -> ResponseUtil.restResponse(resp, HttpStatus.FORBIDDEN, RestResult.error(403, "抱歉，你当前的身份无权访问")))
+                .authenticationEntryPoint(secureAuthenticationEntryPoint)
+                // 配置没有权限自定义处理类
+                .accessDeniedHandler(secureAccessDeniedHandler)
+                // 同时登陆多个只保留一个,多余踢出用户
                 .and().sessionManagement().maximumSessions(1)
-                .expiredSessionStrategy(s -> ResponseUtil.restResponse(s.getResponse(), HttpStatus.FORBIDDEN, RestResult.error(499, "您的账号在别的地方登录，当前登录已失效")))
+                .maxSessionsPreventsLogin(false)
+                // 踢出用户操作
+                .expiredSessionStrategy(secureSessionExpiredHandler)
                 .and()
-                .and().logout().logoutUrl("/logout").permitAll()
                 .and().authorizeRequests().antMatchers(NO_AUTH_LIST).permitAll()
                 .and().authorizeRequests().anyRequest().authenticated();
     }
