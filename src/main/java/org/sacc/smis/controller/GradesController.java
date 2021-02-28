@@ -82,13 +82,4 @@ public class GradesController {
         return RestResult.success(gradesService.updateGrades(grades));
     }
 
-    @ResponseBody
-    @PostMapping("/teacherUpdateGrades")
-    @PreAuthorize("hasAnyRole('STUDENT','MONITOR')")
-    public RestResult<Boolean> studentUpdateGrades(@RequestBody Grades grades,Authentication authentication){
-        UserInfo userInfo = (UserInfo)authentication.getPrincipal();
-        grades.setUserId(userInfo.getId());
-        grades.setStudentId(userInfo.getId());
-        return RestResult.success(gradesService.updateGrades(grades));
-    }
 }
