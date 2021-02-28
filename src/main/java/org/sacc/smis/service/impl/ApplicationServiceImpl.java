@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,6 +19,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public boolean addApplication(Application application) {
+        LocalDateTime time = LocalDateTime.now();
+        application.setCreatedAt(time);
+        application.setUpdatedAt(time);
         applicationRepository.save(application);
         return true;
     }
