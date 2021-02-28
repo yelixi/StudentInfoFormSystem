@@ -1,7 +1,6 @@
 package org.sacc.smis.controller;
 
 import io.swagger.annotations.ApiParam;
-import org.sacc.smis.entity.Grades;
 import org.sacc.smis.entity.UpdatePassword;
 import org.sacc.smis.entity.User;
 import org.sacc.smis.entity.UserRegisterParam;
@@ -72,7 +71,6 @@ public class UserController {
     /**
      * 发送忘记密码邮件请求，每日申请次数不超过5次，每次申请间隔不低于 5分钟
      */
-
     @ResponseBody
     @PostMapping("/validate/sendValidationEmail")
     //通过邮箱找回密码
