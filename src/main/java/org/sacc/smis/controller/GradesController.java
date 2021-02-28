@@ -74,8 +74,8 @@ public class GradesController {
     }
 
     @ResponseBody
-    @PostMapping("/teacherUpdateGrades")
-    @PreAuthorize("hasAnyRole('TEACHER','MONITOR')")
+    @PostMapping("/studentUpdateGrades")
+    @PreAuthorize("hasAnyRole('STUDENT','MONITOR')")
     public RestResult<Boolean> teacherUpdateGrades(@RequestBody Grades grades,Authentication authentication){
         UserInfo userInfo = (UserInfo)authentication.getPrincipal();
         grades.setUserId(userInfo.getId());
@@ -84,7 +84,7 @@ public class GradesController {
 
     @ResponseBody
     @PostMapping("/teacherUpdateGrades")
-    @PreAuthorize("hasAnyRole('STUDENT','MONITOR')")
+    @PreAuthorize("hasAnyRole('TEACHER','MONITOR')")
     public RestResult<Boolean> studentUpdateGrades(@RequestBody Grades grades,Authentication authentication){
         UserInfo userInfo = (UserInfo)authentication.getPrincipal();
         grades.setUserId(userInfo.getId());
