@@ -40,13 +40,13 @@ public class UserController {
     }
 
     @ResponseBody
-    @PostMapping("/registerTeacher")
+    @PostMapping("/register/teacher")
     public RestResult<Boolean> registerTeacher(@RequestBody UserRegisterParam userRegisterParam) {
         return RestResult.success(userService.registerTeacher(userRegisterParam));
     }
 
     @ResponseBody
-    @PostMapping("/registerAdmin")
+    @PostMapping("/register/admin")
     public RestResult<Boolean> registerAdmin(@RequestBody UserRegisterParam userRegisterParam) {
         return RestResult.success(userService.registerAdmin(userRegisterParam));
     }
