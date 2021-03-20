@@ -1,4 +1,4 @@
-package org.sacc.smis.entity;
+package org.sacc.smis.param;
 
 import lombok.Data;
 

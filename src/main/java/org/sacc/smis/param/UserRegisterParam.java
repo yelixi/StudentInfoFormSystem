@@ -1,4 +1,4 @@
-package org.sacc.smis.entity;
+package org.sacc.smis.param;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 public class UserRegisterParam {
-    private String studentId;
+    private String schoolNumber;
 
     private String password;
 

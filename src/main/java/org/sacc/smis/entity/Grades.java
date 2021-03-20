@@ -18,7 +18,7 @@ public class Grades {
     private Integer id;
 
     @Column(nullable = false)
-    private Integer studentId;
+    private Integer schoolNumber;
 
     /**
      * 某科成绩名称，如：竞赛成绩，体育成绩，体测成绩

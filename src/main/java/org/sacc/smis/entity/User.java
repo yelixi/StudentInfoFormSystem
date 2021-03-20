@@ -7,13 +7,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
 @Table(
         indexes = {
                 @Index(name = "email", columnList = "email",unique = true),
-                @Index(name = "studentId", columnList = "studentId", unique = true)
+                @Index(name = "schoolNumber", columnList = "schoolNumber", unique = true)
         }
 )
 @EntityListeners(AuditingEntityListener.class)
@@ -30,7 +31,7 @@ public class User {
     private String password;
 
     @Column(unique = true)
-    private String studentId;
+    private String schoolNumber;
     @Column(nullable = false)
     private String role = "0";
     /**
@@ -54,14 +55,27 @@ public class User {
     //@Column(nullable = false)
     private String idCord;
 
+    /**
+     * 班级
+     */
+    private String classes;
+
+    /**
+     * 辅导员所管班级
+     */
+    @Transient
+    private List<String> classManagement;
+
     private String isFailed = "否";
 
     /**
      * 平均绩点
      */
     private Double averageGrades;
+
     @CreatedDate
     private LocalDateTime createdAt;
+
     @LastModifiedDate
     private LocalDateTime updatedAt;
 }

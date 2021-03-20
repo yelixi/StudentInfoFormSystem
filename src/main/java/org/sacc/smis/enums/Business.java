@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Business {
-    STUDENT_ID_IS_EXIT(1000,"该学号已存在")
+    SCHOOL_NUMBER_IS_EXIT(1000,"该学号已存在")
     ,
     EMAIL_IS_EXIT(1001,"该邮箱已存在")
     ,

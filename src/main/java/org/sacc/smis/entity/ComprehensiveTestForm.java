@@ -1,6 +1,8 @@
 package org.sacc.smis.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
-public class StudentMoralEducationItem {
+public class ComprehensiveTestForm {
     @Id
     @GeneratedValue
     private Integer id;
@@ -62,29 +64,56 @@ public class StudentMoralEducationItem {
     private Integer healthAndSafety;
 
     /**
+     * 社会工作能力分数
+     */
+    @NotNull(message = "社会工作能力不能为空")
+    private Integer socialWorkAbility;
+
+    /**
+     * 学科竞赛和科技竞赛分数
+     */
+    @NotNull(message = "学科竞赛和科技竞赛不能为空")
+    private Integer subjectCompetition;
+
+    /**
+     * 学术科技成果分数
+     */
+    @NotNull(message = "学术科技成果不能为空")
+    private Integer academicAndTechnologicalAchievements;
+
+    /**
+     * 大学英语国家考试分数
+     */
+    @NotNull(message = "大学英语国家考试不能为空")
+    private Integer nationalCollegeEnglishTest;
+
+    /**
+     * 计算机能力分数
+     */
+    @NotNull(message = "计算机能力不能为空")
+    private Integer computerAbility;
+
+    /**
+     * 文体比赛分数
+     */
+    @NotNull(message = "文体比赛不能为空")
+    private Integer sportsCompetition;
+
+    /**
+     * 国际化能力分数
+     */
+    @NotNull(message = "国际化能力不能为空")
+    private Integer internationalizationCapability;
+
+    /**
      * 填表人id
      */
     private Integer userId;
 
-    /**
-     * 评写人id
-     */
-    private Integer commentatorId;
-
-    /**
-     * false表示未评写,true表示已评写
-     */
-    private boolean type = false;
-
+    @CreatedDate
     private LocalDateTime createAt;
 
+    @LastModifiedDate
     private LocalDateTime updateAt;
 
-    public boolean getType() {
-        return type;
-    }
-
-    public void setType(boolean type) {
-        this.type = type;
-    }
 }

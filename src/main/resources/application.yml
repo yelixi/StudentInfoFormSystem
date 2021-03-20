@@ -12,7 +12,7 @@ spring:
       max-request-size: 16MB
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
   thymeleaf:
     prefix: classpath:/templates/

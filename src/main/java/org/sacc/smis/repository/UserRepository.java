@@ -1,13 +1,11 @@
-package org.sacc.smis.mapper;
+package org.sacc.smis.repository;
 
 import org.sacc.smis.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.stereotype.Repository;
 
 /**
  * Created by 林夕
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    User findByStudentId(String studentId);
+    User findBySchoolNumber(String studentId);
 
     User findByEmail(String email);
 

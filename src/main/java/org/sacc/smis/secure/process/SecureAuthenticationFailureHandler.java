@@ -32,7 +32,7 @@ public class SecureAuthenticationFailureHandler implements AuthenticationFailure
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                      AuthenticationException exception) throws IOException, ServletException {
-        RestResult result = new RestResult<>(403, "登录失败!");
+        RestResult<String> result = new RestResult<>(403, "登录失败!");
         if (exception instanceof UsernameNotFoundException){
             result.setMessage("用户名不存在!");
         }

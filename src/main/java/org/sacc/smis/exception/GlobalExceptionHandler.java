@@ -10,7 +10,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLException;
@@ -93,7 +92,7 @@ public class GlobalExceptionHandler {
      * 捕获权限异常
      */
     @ExceptionHandler(value = AccessDeniedException.class)
-    public RestResult<ResultEnum> accessDeniedException(AccessDeniedException e) {
+    public RestResult<ResultEnum> accessDeniedException() {
         logger.error("您没有权限访问");
         return RestResult.error(ResultEnum.NO_PERMISSION_ACCESS);
     }
